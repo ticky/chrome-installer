@@ -17,8 +17,7 @@ case "$1" in
 		URL="https://dl.google.com/chrome/mac/dev/GoogleChrome.dmg"
 		;;
 	*)
-		URL="http://stash.gstokes.movideo.com/googlechrome.dmg"
-		#URL="https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
+		URL="https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
 		;;
 esac
 
@@ -51,7 +50,7 @@ if [ -d "$outdir/Google Chrome $version.app" ]; then
 fi
 
 # Create a launcher AppleScript Application bundle using `osacompile`
-echo "do shell script \"bundlePath=\" & (quoted form of the POSIX path of (path to me)) & \" && rm -rf \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" > /dev/null 2>&1; hdiutil mount -quiet -nobrowse \\\"\$bundlePath/Contents/Resources/googlechrome.dmg\\\" && cp -R \\\"/Volumes/Google Chrome/Google Chrome.app\\\" \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" && hdiutil unmount -quiet \\\"/Volumes/Google Chrome/\\\" && \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\\\" --user-data-dir=\\\"/Users/\$USER/Library/Application Support/Google/Chrome $version\\\" > /dev/null 2>&1\"" | osacompile -o "$outdir/Google Chrome $version.app"
+echo "do shell script \"bundlePath=\" & (quoted form of the POSIX path of (path to me)) & \" && rm -rf \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" > /dev/null 2>&1; hdiutil mount -quiet -nobrowse \\\"\$bundlePath/Contents/Resources/googlechrome.dmg\\\" && cp -R \\\"/Volumes/Google Chrome/Google Chrome.app\\\" \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" && hdiutil detach -quiet \\\"/Volumes/Google Chrome/\\\" && \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\\\" --user-data-dir=\\\"/Users/\$USER/Library/Application Support/Google/Chrome $version\\\" > /dev/null 2>&1\"" | osacompile -o "$outdir/Google Chrome $version.app"
 
 # Create a directory inside Resources for putting the real Application bundle in
 mkdir -p "$outdir/Google Chrome $version.app/Contents/Resources/Applications"
@@ -65,7 +64,7 @@ cp "$outdir/Google Chrome $version.app/Contents/Resources/Applications/Google Ch
 # Set the launcher bundle's icon to match the Application's
 defaults write "$outdir/Google Chrome $version.app/Contents/Info" CFBundleShortVersionString "$version Launcher"
 
-# Unmount disk image
+# Detach disk image
 hdiutil detach -quiet "/Volumes/Google Chrome"
 
 # Move the disk image into the launcher app, or delete it
@@ -76,4 +75,3 @@ else
 fi
 
 echo Installed Chrome $version.
- 
