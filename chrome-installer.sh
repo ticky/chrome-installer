@@ -1,47 +1,30 @@
 #!/bin/sh
 
-echo Installing Chrome...
+# Chrome Installer
+# Copyright 2013 Geoff Stokes
 
-# Temporary files go here
-tmpdir="/tmp/multichrome"
+# Creates an AppleScript-based launcher bundle for Chrome.
+# Prevents auto-updates by restoring the app bundle to its original state (from the disk image) every launch.
+# Also forces Chrome versions to use their own distinct profile directory.
 
 # Installed launcher bundles go here
 outdir="/Applications/Google Chromes"
 
-# Choose our release channel
-case "$1" in
-	beta)
-		URL="https://dl.google.com/chrome/mac/beta/GoogleChrome.dmg"
-		;;
-	dev)
-		URL="https://dl.google.com/chrome/mac/dev/GoogleChrome.dmg"
-		;;
-	*)
-		URL="https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg"
-		;;
-esac
-
 # Extract filename
-FILE=$(basename $URL)
-echo Retrieving \"$URL\"...
-
-# Make directories
-mkdir -p $tmpdir &&
-cd $tmpdir
-
-# Fetch disk image
-curl --progress-bar --location --continue-at - $URL --remote-name
+targetFile=$1
+targetFileName=$(basename $1)
+echo Installing Chrome from \"$targetFileName\"...
 
 # Mount disk image
-hdiutil attach -quiet -nobrowse $tmpdir/$FILE &&
+hdiutil attach -quiet -nobrowse $targetFile &&
 
 # Get the version from the Application bundle
 version="$(defaults read /Volumes/Google\ Chrome/Google\ Chrome.app/Contents/Info.plist CFBundleShortVersionString)"
 
 if [ ! $version ]; then
-	echo "Error fetching Chrome."
 	hdiutil detach -quiet "/Volumes/Google Chrome"
-	exit
+	echo There was an error installing Chrome.
+	exit 1
 fi
 
 # Remove the existing app if it's there
@@ -69,9 +52,7 @@ hdiutil detach -quiet "/Volumes/Google Chrome"
 
 # Move the disk image into the launcher app, or delete it
 if [ ! -f "$outdir/Google Chrome $version.app/Contents/Resources/googlechrome.dmg" ]; then
-	mv $tmpdir/$FILE "$outdir/Google Chrome $version.app/Contents/Resources/googlechrome.dmg"
-else
-	rm $tmpdir/$FILE
+	cp $targetFile "$outdir/Google Chrome $version.app/Contents/Resources/googlechrome.dmg"
 fi
 
-echo Installed Chrome $version.
+echo Done.
