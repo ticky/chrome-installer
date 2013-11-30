@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Chrome Web Installer
-# Copyright 2013 Geoff Stokes
+# Copyright © 2013 Geoff Stokes
 
 # Downloads and sandboxes (using chrome-installer) the latest Chrome build from any of the channels.
 
@@ -33,6 +33,8 @@ cd $tmpdir
 
 # Fetch disk image
 curl --progress-bar --location --continue-at - $URL --remote-name
+
+cd -
 
 # Defer to Chrome Installer
 ./chrome-installer.sh $tmpdir/$FILE && rm $tmpdir/$FILE

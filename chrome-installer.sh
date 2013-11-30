@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Chrome Installer
-# Copyright 2013 Geoff Stokes
+# Copyright © 2013 Geoff Stokes
 
 # Creates an AppleScript-based launcher bundle for Chrome.
 # Prevents auto-updates by restoring the app bundle to its original state (from the disk image) every launch.
@@ -33,7 +33,7 @@ if [ -d "$outdir/Google Chrome $version.app" ]; then
 fi
 
 # Create a launcher AppleScript Application bundle using `osacompile`
-echo "do shell script \"bundlePath=\" & (quoted form of the POSIX path of (path to me)) & \" && rm -rf \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" > /dev/null 2>&1; hdiutil mount -quiet -nobrowse \\\"\$bundlePath/Contents/Resources/googlechrome.dmg\\\" && cp -R \\\"/Volumes/Google Chrome/Google Chrome.app\\\" \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" && hdiutil detach -quiet \\\"/Volumes/Google Chrome/\\\" && \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\\\" --user-data-dir=\\\"/Users/\$USER/Library/Application Support/Google/Chrome $version\\\" > /dev/null 2>&1\"" | osacompile -o "$outdir/Google Chrome $version.app"
+echo "do shell script \"bundlePath=\" & (quoted form of the POSIX path of (path to me)) & \" && rm -rf \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" > /dev/null 2>&1; hdiutil mount -quiet -nobrowse \\\"\$bundlePath/Contents/Resources/googlechrome.dmg\\\" && cp -R \\\"/Volumes/Google Chrome/Google Chrome.app\\\" \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app\\\" && hdiutil detach -quiet \\\"/Volumes/Google Chrome/\\\" && \\\"\$bundlePath/Contents/Resources/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\\\" --user-data-dir=\\\"/Users/\$USER/Library/Application Support/Google/Chrome $version\\\" > /dev/null 2>&1 &\"" | osacompile -o "$outdir/Google Chrome $version.app"
 
 # Create a directory inside Resources for putting the real Application bundle in
 mkdir -p "$outdir/Google Chrome $version.app/Contents/Resources/Applications"
