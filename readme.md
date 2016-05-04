@@ -51,6 +51,6 @@ In essence, this means you get to run multiple versions of Chrome simultaneously
 
 ## Legal
 
-Copyright © 2013 Geoff Stokes. Please see `license.txt`.
+Copyright © 2013 Jessica Stokes. Please see `license.txt`.
 
 This project is not affiliated with Google or Chrome in any way. No portions of Chrome are distributed as part of this project.

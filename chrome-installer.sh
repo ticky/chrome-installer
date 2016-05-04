@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Chrome Installer
-# Copyright © 2013 Geoff Stokes
+# Copyright © 2013 Jessica Stokes
 
 # Creates an AppleScript-based launcher bundle for Chrome.
 # Prevents auto-updates by restoring the app bundle to its original state (from the disk image) every launch.

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Chrome Web Installer
-# Copyright © 2013 Geoff Stokes
+# Copyright © 2013 Jessica Stokes
 
 # Downloads and sandboxes (using chrome-installer) the latest Chrome build from any of the channels.
 
